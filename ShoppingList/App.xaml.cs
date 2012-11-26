@@ -35,20 +35,7 @@ namespace ShoppingList
 				{
 					mainwin.Dispatcher.Invoke((Action)delegate
 					{
-						var args = evt.CommandLineArgs.ToList();
-						args.RemoveAt(0);//Remove the EXE path
-						if (args.Count >= 1 && args[0].ToLower() == ShoppingList.MainWindow.cUriProtocolHandlerCommandlineArgument.ToLower())
-						{
-							string commandFromUri =
-								args[1].Substring(ShoppingList.MainWindow.cUriStartString.Length + 1).ToLower();//The +1 is because we must add the ':' character
-							if (commandFromUri == "show")
-							{
-								mainwin.Show();
-								mainwin.Topmost = !mainwin.Topmost;
-								mainwin.Topmost = !mainwin.Topmost;
-								mainwin.Activate();
-							}
-						}
+						PerformCommandFromArguments(evt.CommandLineArgs, mainwin);
 					});
 				},
 				(args, mainwin) =>
@@ -69,8 +56,32 @@ namespace ShoppingList
 					//ApplicationRecoveryAndRestart.RegisterForRecoveryAndRestart(
 
 					mainwindow = mainwin;
-					mainwin.Show();
+					PerformCommandFromArguments(args, mainwindow);
 				});
+		}
+
+		private void PerformCommandFromArguments(string[] commandlineArgs, MainWindow mainwin)
+		{
+			//Just always show it
+			mainwin.Show();
+			mainwin.Topmost = !mainwin.Topmost;
+			mainwin.Topmost = !mainwin.Topmost;
+			mainwin.Activate();
+
+			var args = commandlineArgs.ToList();
+			args.RemoveAt(0);//Remove the EXE path
+			if (args.Count >= 1 && args[0].ToLower() == ShoppingList.MainWindow.cUriProtocolHandlerCommandlineArgument.ToLower())
+			{
+				string commandFromUri =
+								args[1].Substring(ShoppingList.MainWindow.cUriStartString.Length + 1).ToLower();//The +1 is because we must add the ':' character
+				if (commandFromUri == "show")
+				{
+				}
+				else if (commandFromUri == "additem")
+				{
+					UserMessages.ShowInfoMessage("Must add a dialog for a new item here...");
+				}
+			}
 		}
 	}
 }
