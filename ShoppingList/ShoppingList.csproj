@@ -77,7 +77,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\InputBoxWPF.xaml.cs">
+      <Link>InputBoxWPF.xaml.cs</Link>
+      <DependentUpon>InputBoxWPF.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\WPFdraggableCanvas.cs">
+      <Link>WPFdraggableCanvas.cs</Link>
+    </Compile>
     <Compile Include="ShoppinglistItem.cs" />
+    <Page Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\InputBoxWPF.xaml">
+      <Link>InputBoxWPF.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

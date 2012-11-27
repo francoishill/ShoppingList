@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 using System.Globalization;
+using System.Collections.ObjectModel;
+using SharedClasses;
 
 namespace ShoppingList
 {
@@ -76,6 +78,98 @@ namespace ShoppingList
 				created,
 				dict["itemcategory"].ToString(),
 				dict["itemname"].ToString());
+		}
+
+		private static bool GetShoppinglist_ApikeyAndAppsecret(out string outUsername, out string outApiKey, out string outAppSecret)
+		{
+			string appname = "shoppinglist";
+
+			outUsername = SettingsSimple.WebsiteKeys.Instance.Username;
+			outApiKey = SettingsSimple.WebsiteKeys.Instance.ApiKey;//Not really used at this stage
+
+			var appsecrets = SettingsSimple.WebsiteKeys.Instance.AppSecrets;
+			if (outUsername == null
+				|| outApiKey == null
+				|| appsecrets == null || !appsecrets.ContainsKey(appname))
+			{
+				UserMessages.ShowWarningMessage("Please enter the API key and App Secret first for the shopppinglist app.");
+				outApiKey = null;
+				outAppSecret = null;
+				return false;
+			}
+
+			outAppSecret = appsecrets[appname];//Used to encrypt/decrypt (by passing username) the data passed for the shoppinglist application
+			return true;
+		}
+
+		private static ObservableCollection<ShoppinglistItem> createdList = null;
+		public static ObservableCollection<ShoppinglistItem> GetListFromOnline(Action<string> onError)
+		{
+			if (createdList != null)
+				return createdList;
+
+			string username, apikey, appsecret_shoppinglist;
+			if (!GetShoppinglist_ApikeyAndAppsecret(out username, out apikey, out appsecret_shoppinglist))
+				return null;
+			else
+			{
+				string username_Hex = EncodeAndDecodeInterop.EncodeStringHex(username, onError);
+
+				string apikey_EncryptWithAppsecret = PhpInterop.PhpEncryption.SimpleTripleDesEncrypt(apikey, appsecret_shoppinglist);
+				string apikey_Hex = EncodeAndDecodeInterop.EncodeStringHex(apikey_EncryptWithAppsecret, onError);
+
+				var s = PhpInterop.PostPHP(
+					null,
+					string.Format("{0}/shoppinglist/desktop_getall/{1}/{2}", SettingsSimple.HomePcUrls.Instance.WebappsRoot, username_Hex, apikey_Hex),
+					"");
+
+				string decrypted = PhpInterop.PhpEncryption.SimpleTripleDesDecrypt(s, appsecret_shoppinglist);
+
+				JSON.SetDefaultJsonInstanceSettings();
+
+				createdList = new ObservableCollection<ShoppinglistItem>(
+					ShoppinglistItem.ProcessFromWebArrayList(JSON.Instance.Parse(decrypted) as ArrayList, onError));
+				return createdList;
+			}
+		}
+
+		public static bool AddItem(string category, string itemname, Action<string> onError)
+		{
+			string username, apikey, appsecret_shoppinglist;
+			if (!GetShoppinglist_ApikeyAndAppsecret(out username, out apikey, out appsecret_shoppinglist))
+				return false;
+			else
+			{
+				string username_Hex = EncodeAndDecodeInterop.EncodeStringHex(username, onError);
+
+				string apikey_EncryptWithAppsecret = PhpInterop.PhpEncryption.SimpleTripleDesEncrypt(apikey, appsecret_shoppinglist);
+				string apikey_Hex = EncodeAndDecodeInterop.EncodeStringHex(apikey_EncryptWithAppsecret, onError);
+
+				string category_Hex = EncodeAndDecodeInterop.EncodeStringHex(category, onError);
+				string itemname_Hex = EncodeAndDecodeInterop.EncodeStringHex(itemname, onError);
+
+				var s = PhpInterop.PostPHP(
+					null,
+					string.Format(
+						"{0}/shoppinglist/desktop_additem/{1}/{2}/{3}/{4}",
+						SettingsSimple.HomePcUrls.Instance.WebappsRoot,
+						username_Hex,
+						apikey_Hex,
+						category_Hex,
+						itemname_Hex
+						),
+					"");
+
+				string decrypted = PhpInterop.PhpEncryption.SimpleTripleDesDecrypt(s, appsecret_shoppinglist);
+
+				if (decrypted.StartsWith("Item added:", StringComparison.InvariantCultureIgnoreCase))
+					return true;
+				else
+				{
+					onError("ERROR adding item: " + decrypted);
+					return false;
+				}
+			}
 		}
 	}
 }

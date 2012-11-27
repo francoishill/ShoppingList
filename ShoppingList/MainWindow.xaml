@@ -7,7 +7,9 @@
 		Loaded='Window_Loaded'
 		WindowStartupLocation='CenterScreen'>
 	<Grid>
-		<ListBox Name='listboxShoppinglist' SelectionChanged='listboxShoppinglist_SelectionChanged'>
+		<ListBox Name='listboxShoppinglist'
+				 SelectionChanged='listboxShoppinglist_SelectionChanged'
+				 Margin='0 0 0 40'>
 			<ListBox.ItemTemplate>
 				<DataTemplate>
 					<Border BorderBrush='#333'
@@ -32,7 +34,8 @@
 									   Margin='20 0 0 0' />
 							<TextBlock Text='{Binding Created}'
 									   Margin='20 0 0 0' />-->
-							<TextBlock Text='{Binding ItemCategory}' Foreground='Gray'/>
+							<TextBlock Text='{Binding ItemCategory}'
+									   Foreground='Gray' />
 							<TextBlock Text='{Binding ItemName}'
 									   Foreground='Green'
 									   Margin='20 0 0 0' />
@@ -41,5 +44,9 @@
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
+		<Button Content='Add item'
+				VerticalAlignment='Bottom'
+				HorizontalAlignment='Right'
+				Click='buttonAddItemClick' />
 	</Grid>
 </Window>
