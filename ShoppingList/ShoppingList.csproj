@@ -71,24 +71,53 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WPFToolkit.Extended">
+      <HintPath>..\..\..\..\..\..\..\Francois\Dev\DLLs\WPF Toolkit (Extended)\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\ConvertersGeneral.cs">
+      <Link>ConvertersGeneral.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\InputBoxWPF.xaml.cs">
       <Link>InputBoxWPF.xaml.cs</Link>
       <DependentUpon>InputBoxWPF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\TextblockDoubleclickTextbox.xaml.cs">
+      <Link>TextblockDoubleclickTextbox.xaml.cs</Link>
+      <DependentUpon>TextblockDoubleclickTextbox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\Win32Api.cs">
+      <Link>Win32Api.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\WPFdraggableCanvas.cs">
       <Link>WPFdraggableCanvas.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\WPFHelper.cs">
+      <Link>WPFHelper.cs</Link>
+    </Compile>
+    <Compile Include="DatePickerWindow.xaml.cs">
+      <DependentUpon>DatePickerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShoppinglistItem.cs" />
     <Page Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\InputBoxWPF.xaml">
       <Link>InputBoxWPF.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\TextblockDoubleclickTextbox.xaml">
+      <Link>TextblockDoubleclickTextbox.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DatePickerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -208,6 +237,7 @@
   <ItemGroup>
     <Resource Include="app.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,49 +1,177 @@
 ﻿<Window x:Class="ShoppingList.MainWindow"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:sl='clr-namespace:ShoppingList'
+		xmlns:sharedclasses='clr-namespace:SharedClasses'
+		xmlns:wpftoolkitext='clr-namespace:Xceed.Wpf.Toolkit;assembly=WPFToolkit.Extended'
 		Title="MainWindow"
-		Height='575'
+		Height='700'
 		Width="525"
 		Loaded='Window_Loaded'
-		WindowStartupLocation='CenterScreen'>
+		WindowStartupLocation='CenterScreen'
+		MouseDown='Window_MouseDown'>
+	<Window.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<!--<ResourceDictionary Source='Resources/DavesGlossyControls.xaml' />-->
+				<ResourceDictionary>
+					<sharedclasses:DateTimeToHumanfriendlyStringConverter x:Key='dateTimeToHumanfriendlyStringConverter' />
+					<sharedclasses:BooleanToVisibilityConverter x:Key='booleanToVisibilityConverter' />
+					<LinearGradientBrush x:Key='mainCategoryBackground'
+										 StartPoint='0,0'
+										 EndPoint='0,1'>
+						<GradientStop Color='#333'
+									  Offset='0' />
+						<GradientStop Color='#777'
+									  Offset='0.7' />
+						<GradientStop Color='#333'
+									  Offset='1' />
+					</LinearGradientBrush>
+					<Style x:Key='dateTimeTextBlockStyle'>
+						<Setter Property="TextBlock.Foreground"
+								Value="#222" />
+						<Style.Triggers>
+							<Trigger Property="TextBlock.IsMouseOver"
+									 Value="True">
+								<Setter Property='TextBlock.Foreground'
+										Value='Orange' />
+							</Trigger>
+						</Style.Triggers>
+					</Style>
+				</ResourceDictionary>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Window.Resources>
 	<Grid>
-		<ListBox Name='listboxShoppinglist'
-				 SelectionChanged='listboxShoppinglist_SelectionChanged'
-				 Margin='0 0 0 40'>
-			<ListBox.ItemTemplate>
-				<DataTemplate>
-					<Border BorderBrush='#333'
-							BorderThickness='1'
-							CornerRadius='10'
-							Padding='10'
-							Margin='5 0 0 15'>
-						<Border.Background>
-							<LinearGradientBrush StartPoint='0,0'
-												 EndPoint='0,1'>
-								<GradientStop Color='#ddd'
-											  Offset='0' />
-								<GradientStop Color='#fff'
-											  Offset='0.6' />
-								<GradientStop Color='#ddd'
-											  Offset='1' />
-							</LinearGradientBrush>
-						</Border.Background>
-						<StackPanel Orientation='Horizontal'>
-							<!--<TextBlock Text='{Binding Index}' />
-							<TextBlock Text='{Binding Username}'
-									   Margin='20 0 0 0' />
-							<TextBlock Text='{Binding Created}'
-									   Margin='20 0 0 0' />-->
-							<TextBlock Text='{Binding ItemCategory}'
-									   Foreground='Gray' />
-							<TextBlock Text='{Binding ItemName}'
-									   Foreground='Green'
-									   Margin='20 0 0 0' />
-						</StackPanel>
+		<TreeView Name='treeviewShoppingLists'
+				  SelectedItemChanged='listboxShoppinglist_SelectionChanged'
+				  Margin='0 0 0 40'>
+			<TreeView.ItemContainerStyle>
+				<Style TargetType="{x:Type TreeViewItem}">
+					<Setter Property="Focusable"
+							Value="False" />
+					<Setter Property="IsExpanded"
+							Value="True" />
+				</Style>
+			</TreeView.ItemContainerStyle>
+			<TreeView.ItemTemplate>
+				<HierarchicalDataTemplate ItemsSource='{Binding Items}'>
+					<Border ToolTip='Category (double-click to edit)'
+							Background='{StaticResource mainCategoryBackground}'
+							Padding='5 10'
+							CornerRadius='5'
+							Margin='0 15 0 5'>
+						<Border.ContextMenu>
+							<ContextMenu>
+								<MenuItem Header='Add _reminder'
+										  Click='menuitemAddReminder_Click' />
+							</ContextMenu>
+						</Border.ContextMenu>
+						<DockPanel LastChildFill='True'>
+							<TextBlock DockPanel.Dock='Right'
+									   FontSize='20'
+									   Text='{Binding DueDate, Converter={StaticResource dateTimeToHumanfriendlyStringConverter}, StringFormat="  (due \{0\})"}'
+									   ToolTip='{Binding DueDate}'
+									   Visibility='{Binding HasReminder, Converter={StaticResource booleanToVisibilityConverter}}'
+									   Style='{StaticResource dateTimeTextBlockStyle}' />
+							<!--<wpftoolkitext:DateTimePicker DockPanel.Dock='Right'
+														  Opacity='0.7'
+														  Value='{Binding DueDate}'
+														  Visibility='{Binding HasReminder, Converter={StaticResource booleanToVisibilityConverter}}'
+														  IsReadOnly='True'
+														  ShowButtonSpinner='False' />-->
+							<ProgressBar DockPanel.Dock='Right'
+										 Width='20'
+										 Height='15'
+										 Opacity='0.6'
+										 IsIndeterminate='True'
+										 Visibility='{Binding IsBusyUploadingOnline, Converter={StaticResource booleanToVisibilityConverter}, ConverterParameter=HideInsteadOfCollapse}' />
+							<sharedclasses:TextblockDoubleclickTextbox x:Name='textboxItemCategory'
+																	   Text="{Binding CategoryName, Mode=TwoWay}"
+																	   OnlyfocusOnDoubleClick='True'
+																	   Foreground='White'
+																	   FontSize='20'
+																	   TextChanged_LostFocus='textboxItemCategory_TextChanged_LostFocus'
+																	   PreviewKeyDown='textboxItemCategory_PreviewKeyDown' />
+						</DockPanel>
 					</Border>
-				</DataTemplate>
-			</ListBox.ItemTemplate>
-		</ListBox>
+					<HierarchicalDataTemplate.ItemTemplate>
+						<DataTemplate>
+							<Border CornerRadius='10'
+									Padding='10'
+									Margin='5 0 0 5'>
+								<Border.Background>
+									<LinearGradientBrush StartPoint='0,0'
+														 EndPoint='0,1'>
+										<GradientStop Color='#FF005858'
+													  Offset='0' />
+										<GradientStop Color='#FF038686'
+													  Offset='0.6' />
+										<GradientStop Color='#FF005858'
+													  Offset='1' />
+									</LinearGradientBrush>
+								</Border.Background>
+								<StackPanel Orientation='Horizontal'>
+									<StackPanel.Style>
+										<Style>
+											<Setter Property='sharedclasses:TextblockDoubleclickTextbox.FontSize'
+													Value='20' />
+											<Setter Property='TextBlock.FontSize'
+													Value='20' />
+										</Style>
+									</StackPanel.Style>
+									<!--<TextBlock Text='{Binding Index}' />
+									<TextBlock Text='{Binding Username}'
+											   Margin='20 0 0 0' />-->
+									<sharedclasses:TextblockDoubleclickTextbox x:Name='textboxItemName'
+																			   Text='{Binding ItemName, Mode=TwoWay}'
+																			   OnlyfocusOnDoubleClick='False'
+																			   Foreground='White'
+																			   ToolTip='Item name'
+																			   TextChanged_LostFocus='textboxItemName_TextChanged_LostFocus'
+																			   PreviewKeyDown='textboxItemName_PreviewKeyDown' />
+									<!--<TextBlock Text='{Binding Created, StringFormat="yyyy-MM-dd HH:mm:ss"}'
+									   Margin='20 0 0 0' />-->
+									<TextBlock Text='{Binding Created, Converter={StaticResource dateTimeToHumanfriendlyStringConverter}, StringFormat="  (added \{0\})"}'
+											   ToolTip='{Binding Created}'
+											   FontSize='14'
+											   VerticalAlignment='Center'
+											   Style='{StaticResource dateTimeTextBlockStyle}' />
+									<ProgressBar Width='20'
+												 Height='15'
+												 Margin='5 0 0 0'
+												 Opacity='0.6'
+												 IsIndeterminate='True'
+												 Visibility='{Binding IsBusyUploadingOnline, Converter={StaticResource booleanToVisibilityConverter}, ConverterParameter=HideInsteadOfCollapse}' />
+								</StackPanel>
+							</Border>
+						</DataTemplate>
+					</HierarchicalDataTemplate.ItemTemplate>
+				</HierarchicalDataTemplate>
+			</TreeView.ItemTemplate>
+			<!--<ListBox.ItemsSource>
+				<x:Array Type="{x:Type sl:ShoppinglistItem}">
+					<sl:ShoppinglistItem Index='0'
+										 Username='f'
+										 Created='2012-07-27 14:12:58.123'
+										 ItemName='Myitem'
+										 ItemCategory='Main category'>
+					</sl:ShoppinglistItem>
+					<sl:ShoppinglistItem Index='0'
+										 Username='f'
+										 Created='2012-12-01'
+										 ItemName='Myitem 2'
+										 ItemCategory='Main category'>
+					</sl:ShoppinglistItem>
+					<sl:ShoppinglistItem Index='0'
+										 Username='f'
+										 Created='2012-12-01 17:01'
+										 ItemName='Myitem 3'
+										 ItemCategory='Main category'>
+					</sl:ShoppinglistItem>
+				</x:Array>
+			</ListBox.ItemsSource>-->
+		</TreeView>
 		<Button Content='Add item'
 				VerticalAlignment='Bottom'
 				HorizontalAlignment='Right'
