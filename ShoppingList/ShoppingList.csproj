@@ -101,6 +101,9 @@
     <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\WPFHelper.cs">
       <Link>WPFHelper.cs</Link>
     </Compile>
+    <Compile Include="..\..\SharedClasses\NotifyIconWPF.cs">
+      <Link>NotifyIconWPF.cs</Link>
+    </Compile>
     <Compile Include="DatePickerWindow.xaml.cs">
       <DependentUpon>DatePickerWindow.xaml</DependentUpon>
     </Compile>

@@ -35,6 +35,8 @@ namespace ShoppingList
 			this.CategoryStopReminding = CategoryStopReminding;
 		}
 
+		public static string GetCurrentUsername() { return SettingsSimple.WebsiteKeys.Instance.Username; }
+
 		public static string DoShoppinglistTask(string taskname, Action<string> onError, params string[] urlParams)
 		{
 			string username, apikey, appsecret_shoppinglist;

@@ -28,9 +28,13 @@ namespace ShoppingList
 		public const string cUriProtocolHandlerCommandlineArgument = "uriprotocolhandler";
 		private ObservableCollection<ShoppinglistCategoryWithItems> ItemlistGroupedByCategory = new ObservableCollection<ShoppinglistCategoryWithItems>();
 
+		private bool hideInsteadOfClose = true;
+
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			this.Title += " (" + ShoppinglistItem.GetCurrentUsername() + ")";
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -57,6 +61,15 @@ namespace ShoppingList
 					cUriStartString,
 					"Shopping List with Firepuma",
 					"\"" + Environment.GetCommandLineArgs()[0] + "\" " + cUriProtocolHandlerCommandlineArgument + " \"%1\"");
+		}
+
+		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			if (hideInsteadOfClose)
+			{
+				e.Cancel = true;
+				HideThisWindow();
+			}
 		}
 
 		private void OnError(string error)
@@ -250,6 +263,35 @@ namespace ShoppingList
 		private void Window_MouseDown(object sender, MouseButtonEventArgs e)
 		{
 			FocusManager.SetFocusedElement(this, null);//If we click outside one of the TextBoxes we just unfocus it all
+		}
+
+		private void HideThisWindow()
+		{
+			this.Hide();
+		}
+
+		private void ShowThisWindow()
+		{
+			this.Show();
+		}
+
+		private void OnNotifyIconLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			if (this.IsVisible)
+				HideThisWindow();
+			else
+				ShowThisWindow();
+		}
+
+		private void OnMenuItemShowClick(object sender, EventArgs e)
+		{
+			ShowThisWindow();
+		}
+
+		private void OnMenuItemExitClick(object sender, EventArgs e)
+		{
+			this.hideInsteadOfClose = false;
+			this.Close();
 		}
 	}
 }
