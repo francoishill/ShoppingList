@@ -229,7 +229,8 @@ namespace ShoppingList
 		private DateTime? _duedate;
 		public DateTime? DueDate { get { return _duedate; } set { _duedate = value; OnPropertyChanged("DueDate", "HasReminder"); } }
 		public bool HasReminder { get { return DueDate.HasValue; } }
-		public bool StopReminding { get; set; }
+		private bool _stopreminding;
+		public bool StopReminding { get { return _stopreminding; } set { _stopreminding = value; OnPropertyChanged("StopReminding"); } }
 
 		public ShoppinglistCategoryWithItems(string CategoryName, DateTime? DueDate, bool StopReminding, ObservableCollection<ShoppinglistItem> Items)
 		{
@@ -268,7 +269,30 @@ namespace ShoppingList
 			string result = ShoppinglistItem.DoShoppinglistTask("desktop_addreminder", onError, this.CategoryName, reminderDate.ToString("yyyy-MM-dd HH:mm:ss"));
 			this.IsBusyUploadingOnline = false;
 			if (result != null && result.StartsWith("Reminder added:", StringComparison.InvariantCultureIgnoreCase))
+			{
+				this.DueDate = reminderDate;
+				this.StopReminding = false;
 				return true;
+			}
+			else
+			{
+				onError("Unable to add reminder for category '" + this.CategoryName + "': " + result);
+				return false;
+			}
+		}
+
+		public bool StopReminder(Action<string> onError = null)
+		{
+			if (onError == null) onError = delegate { };
+
+			this.IsBusyUploadingOnline = true;
+			string result = ShoppinglistItem.DoShoppinglistTask("desktop_stopreminder", onError, this.CategoryName);
+			this.IsBusyUploadingOnline = false;
+			if (result != null && result.StartsWith("Reminder removed:", StringComparison.InvariantCultureIgnoreCase))
+			{
+				this.StopReminding = true;
+				return true;
+			}
 			else
 			{
 				onError("Unable to add reminder for category '" + this.CategoryName + "': " + result);

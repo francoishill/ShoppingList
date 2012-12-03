@@ -19,6 +19,7 @@
 				<ResourceDictionary>
 					<sharedclasses:DateTimeToHumanfriendlyStringConverter x:Key='dateTimeToHumanfriendlyStringConverter' />
 					<sharedclasses:BooleanToVisibilityConverter x:Key='booleanToVisibilityConverter' />
+					<sharedclasses:BooleanToOpacityConverter x:Key='booleanToOpacityConverter' />
 					<LinearGradientBrush x:Key='mainCategoryBackground'
 										 StartPoint='0,0'
 										 EndPoint='0,1'>
@@ -82,6 +83,9 @@
 							<ContextMenu>
 								<MenuItem Header='Add _reminder'
 										  Click='menuitemAddReminder_Click' />
+								<MenuItem Header='Remove _reminder'
+										  Visibility='{Binding StopReminding, Converter={StaticResource booleanToVisibilityConverter}, ConverterParameter=opposite}'
+										  Click='menuitemStopReminder_Click' />
 							</ContextMenu>
 						</Border.ContextMenu>
 						<DockPanel LastChildFill='True'>
@@ -90,6 +94,7 @@
 									   Text='{Binding DueDate, Converter={StaticResource dateTimeToHumanfriendlyStringConverter}, StringFormat="  (due \{0\})"}'
 									   ToolTip='{Binding DueDate}'
 									   Visibility='{Binding HasReminder, Converter={StaticResource booleanToVisibilityConverter}}'
+									   Opacity='{Binding StopReminding, Converter={StaticResource booleanToOpacityConverter}, ConverterParameter=opposite0.2}'
 									   Style='{StaticResource dateTimeTextBlockStyle}' />
 							<!--<wpftoolkitext:DateTimePicker DockPanel.Dock='Right'
 														  Opacity='0.7'

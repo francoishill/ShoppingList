@@ -260,6 +260,15 @@ namespace ShoppingList
 				catitem.AddReminder(pickedDate.Value, OnError);
 		}
 
+		private void menuitemStopReminder_Click(object sender, RoutedEventArgs e)
+		{
+			FrameworkElement fe = sender as FrameworkElement;
+			if (fe == null) return;
+			ShoppinglistCategoryWithItems catitem = fe.DataContext as ShoppinglistCategoryWithItems;
+			if (catitem == null) return;
+			catitem.StopReminder(OnError);
+		}
+
 		private void Window_MouseDown(object sender, MouseButtonEventArgs e)
 		{
 			FocusManager.SetFocusedElement(this, null);//If we click outside one of the TextBoxes we just unfocus it all
