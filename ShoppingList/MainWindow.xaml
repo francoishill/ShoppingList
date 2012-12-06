@@ -16,36 +16,33 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<!--<ResourceDictionary Source='Resources/DavesGlossyControls.xaml' />-->
+				<ResourceDictionary Source='Themes/Default.xaml' />
 				<ResourceDictionary>
 					<sharedclasses:DateTimeToHumanfriendlyStringConverter x:Key='dateTimeToHumanfriendlyStringConverter' />
 					<sharedclasses:BooleanToVisibilityConverter x:Key='booleanToVisibilityConverter' />
 					<sharedclasses:BooleanToOpacityConverter x:Key='booleanToOpacityConverter' />
-					<LinearGradientBrush x:Key='mainCategoryBackground'
-										 StartPoint='0,0'
-										 EndPoint='0,1'>
-						<GradientStop Color='#333'
-									  Offset='0' />
-						<GradientStop Color='#777'
-									  Offset='0.7' />
-						<GradientStop Color='#333'
-									  Offset='1' />
-					</LinearGradientBrush>
-					<Style x:Key='dateTimeTextBlockStyle'>
-						<Setter Property="TextBlock.Foreground"
-								Value="#222" />
-						<Style.Triggers>
-							<Trigger Property="TextBlock.IsMouseOver"
-									 Value="True">
-								<Setter Property='TextBlock.Foreground'
-										Value='Orange' />
-							</Trigger>
-						</Style.Triggers>
-					</Style>
 				</ResourceDictionary>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Window.Resources>
 	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height='auto' />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<!--<Menu Name='menu1'
+			  Margin='0 0 0 10'>
+			<MenuItem Header='File'>
+				<ComboBox Name='comboboxThemes' SelectionChanged='comboboxThemes_SelectionChanged'	/>
+				<Separator />
+				<MenuItem Header='Close to tray'
+						  Click='menuitemCloseToTray_Click' />
+			</MenuItem>
+		</Menu>-->
+		<ComboBox Name='comboboxThemes'
+				  HorizontalAlignment='Center'
+				  FontSize='20'
+				  SelectionChanged='comboboxThemes_SelectionChanged' />
 		<sharedclasses:NotificationAreaIcon x:Name='trayIcon'
 											Text="Shopping List"
 											Icon="app.ico"
@@ -62,6 +59,7 @@
 			</sharedclasses:NotificationAreaIcon.MenuItems>
 		</sharedclasses:NotificationAreaIcon>
 		<TreeView Name='treeviewShoppingLists'
+				  Grid.Row='1'
 				  SelectedItemChanged='listboxShoppinglist_SelectionChanged'
 				  Margin='0 0 0 40'>
 			<TreeView.ItemContainerStyle>
@@ -75,7 +73,7 @@
 			<TreeView.ItemTemplate>
 				<HierarchicalDataTemplate ItemsSource='{Binding Items}'>
 					<Border ToolTip='Category (double-click to edit)'
-							Background='{StaticResource mainCategoryBackground}'
+							Background='{DynamicResource mainCategoryBackground}'
 							Padding='5 10'
 							CornerRadius='5'
 							Margin='0 15 0 5'>
@@ -95,7 +93,7 @@
 									   ToolTip='{Binding DueDate}'
 									   Visibility='{Binding HasReminder, Converter={StaticResource booleanToVisibilityConverter}}'
 									   Opacity='{Binding StopReminding, Converter={StaticResource booleanToOpacityConverter}, ConverterParameter=opposite0.2}'
-									   Style='{StaticResource dateTimeTextBlockStyle}' />
+									   Style='{DynamicResource dateTimeTextBlockStyle}' />
 							<!--<wpftoolkitext:DateTimePicker DockPanel.Dock='Right'
 														  Opacity='0.7'
 														  Value='{Binding DueDate}'
@@ -111,7 +109,7 @@
 							<sharedclasses:TextblockDoubleclickTextbox x:Name='textboxItemCategory'
 																	   Text="{Binding CategoryName, Mode=TwoWay}"
 																	   OnlyfocusOnDoubleClick='True'
-																	   Foreground='White'
+																	   Foreground='{DynamicResource textblockDoubleclickTextboxForeground}'
 																	   FontSize='20'
 																	   TextChanged_LostFocus='textboxItemCategory_TextChanged_LostFocus'
 																	   PreviewKeyDown='textboxItemCategory_PreviewKeyDown' />
@@ -121,18 +119,8 @@
 						<DataTemplate>
 							<Border CornerRadius='10'
 									Padding='10'
-									Margin='5 0 0 5'>
-								<Border.Background>
-									<LinearGradientBrush StartPoint='0,0'
-														 EndPoint='0,1'>
-										<GradientStop Color='#FF005858'
-													  Offset='0' />
-										<GradientStop Color='#FF038686'
-													  Offset='0.6' />
-										<GradientStop Color='#FF005858'
-													  Offset='1' />
-									</LinearGradientBrush>
-								</Border.Background>
+									Margin='5 0 0 5'
+									Background='{DynamicResource itemBackgroundBrush}'>
 								<StackPanel Orientation='Horizontal'>
 									<StackPanel.Style>
 										<Style>
@@ -148,7 +136,7 @@
 									<sharedclasses:TextblockDoubleclickTextbox x:Name='textboxItemName'
 																			   Text='{Binding ItemName, Mode=TwoWay}'
 																			   OnlyfocusOnDoubleClick='False'
-																			   Foreground='White'
+																			   Foreground='{DynamicResource textblockDoubleclickTextboxForeground}'
 																			   ToolTip='Item name'
 																			   TextChanged_LostFocus='textboxItemName_TextChanged_LostFocus'
 																			   PreviewKeyDown='textboxItemName_PreviewKeyDown' />
@@ -158,7 +146,7 @@
 											   ToolTip='{Binding Created}'
 											   FontSize='14'
 											   VerticalAlignment='Center'
-											   Style='{StaticResource dateTimeTextBlockStyle}' />
+											   Style='{DynamicResource dateTimeTextBlockStyle}' />
 									<ProgressBar Width='20'
 												 Height='15'
 												 Margin='5 0 0 0'
@@ -195,6 +183,7 @@
 			</ListBox.ItemsSource>-->
 		</TreeView>
 		<Button Content='Add item'
+				Grid.Row='1'
 				VerticalAlignment='Bottom'
 				HorizontalAlignment='Right'
 				Click='buttonAddItemClick' />

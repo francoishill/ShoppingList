@@ -34,7 +34,42 @@ namespace ShoppingList
 		{
 			InitializeComponent();
 
+			EnsureAllThemesExist();
+			comboboxThemes.ItemsSource = ListOfPathsToThemes;
+			if (comboboxThemes.Items.Count > 0)
+			{
+				comboboxThemes.SelectedIndex = 0;
+				ChangeTheme(comboboxThemes.SelectedItem.ToString());
+			}
+
 			this.Title += " (" + ShoppinglistItem.GetCurrentUsername() + ")";
+		}
+
+		private List<string> ListOfPathsToThemes = new List<string>()
+		{
+			"pack://application:,,,/Themes/Default.xaml",//Themes not auto added
+			"pack://application:,,,/Themes/Orange.xaml"
+		};
+		private void EnsureAllThemesExist()
+		{
+			List<string> unfoundThemes = new List<string>();
+			foreach (string th in ListOfPathsToThemes)
+			{
+				try
+				{
+					ResourceDictionary dic = new ResourceDictionary { Source = new Uri(th, UriKind.RelativeOrAbsolute) };
+					if (dic == null)
+						unfoundThemes.Add(th);
+				}
+				catch
+				{
+					unfoundThemes.Add(th);
+				}
+			}
+			if (unfoundThemes.Count > 0)
+				UserMessages.ShowWarningMessage("The following themes are not found (please contact the developer):"
+					+ Environment.NewLine + Environment.NewLine
+					+ string.Join(Environment.NewLine, unfoundThemes));
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -301,6 +336,29 @@ namespace ShoppingList
 		{
 			this.hideInsteadOfClose = false;
 			this.Close();
+		}
+
+		private void menuitemCloseToTray_Click(object sender, RoutedEventArgs e)
+		{
+			this.Close();
+		}
+
+		private void comboboxThemes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (comboboxThemes.SelectedIndex == -1)
+				return;
+
+			ChangeTheme(comboboxThemes.SelectedItem.ToString());
+		}
+
+		private void ChangeTheme(string themeName)
+		{
+			if (Resources.MergedDictionaries.Count == 0)
+				return;
+
+			ResourceDictionary dic = new ResourceDictionary { Source = new Uri(themeName, UriKind.RelativeOrAbsolute) };
+			Resources.MergedDictionaries.RemoveAt(0);
+			Resources.MergedDictionaries.Insert(0, dic);
 		}
 	}
 }

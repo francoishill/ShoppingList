@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<LinearGradientBrush x:Key='mainCategoryBackground'
+						 StartPoint='0,0'
+						 EndPoint='0,1'>
+		<GradientStop Color='#333'
+					  Offset='0' />
+		<GradientStop Color='#777'
+					  Offset='0.7' />
+		<GradientStop Color='#333'
+					  Offset='1' />
+	</LinearGradientBrush>
+	<LinearGradientBrush x:Key='itemBackgroundBrush'
+						 StartPoint='0,0'
+						 EndPoint='0,1'>
+		<GradientStop Color='#FF005858'
+					  Offset='0' />
+		<GradientStop Color='#FF038686'
+					  Offset='0.6' />
+		<GradientStop Color='#FF005858'
+					  Offset='1' />
+	</LinearGradientBrush>
+	<Style x:Key='dateTimeTextBlockStyle'>
+		<Setter Property="TextBlock.Foreground"
+				Value="#222" />
+		<Style.Triggers>
+			<Trigger Property="TextBlock.IsMouseOver"
+					 Value="True">
+				<Setter Property='TextBlock.Foreground'
+						Value='Orange' />
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+	<SolidColorBrush x:Key='textblockDoubleclickTextboxForeground'
+					 Color='White' />
+</ResourceDictionary>
