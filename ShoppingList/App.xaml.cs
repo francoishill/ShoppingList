@@ -5,6 +5,10 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 using SharedClasses;
+using System.IO;
+using System.Security.Cryptography;
+using Rhino.Licensing;
+using StrKeyVal = System.Collections.Generic.Dictionary<string, string>;
 
 namespace ShoppingList
 {
@@ -27,9 +31,16 @@ namespace ShoppingList
 				});
 		}
 
+		//private const string publicKeyPath = @"C:\Francois\Other\publicKey.xml";
+		//private const string privateKeyPath = @"C:\Francois\Other\privateKey.xml";
+		//private const string licensePath = @"C:\Francois\Other\license.xml";		
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
+			Dictionary<string, string> userPrivilages;
+			if (!LicensingInterop_Client.Client_ValidateLicense("ShoppingList", out userPrivilages, ShowError))
+					Environment.Exit(77);
+
 			SingleInstanceApplicationManager<MainWindow>.CheckIfAlreadyRunningElseCreateNew(
 				(evt, mainwin) =>
 				{

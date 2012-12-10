@@ -110,6 +110,7 @@
 																	   Text="{Binding CategoryName, Mode=TwoWay}"
 																	   OnlyfocusOnDoubleClick='True'
 																	   Foreground='{DynamicResource textblockDoubleclickTextboxForeground}'
+																	   InnerTextboxForeground='{DynamicResource textblockDoubleclickTextboxInnerTextboxForeground}'
 																	   FontSize='20'
 																	   TextChanged_LostFocus='textboxItemCategory_TextChanged_LostFocus'
 																	   PreviewKeyDown='textboxItemCategory_PreviewKeyDown' />
@@ -137,6 +138,7 @@
 																			   Text='{Binding ItemName, Mode=TwoWay}'
 																			   OnlyfocusOnDoubleClick='False'
 																			   Foreground='{DynamicResource textblockDoubleclickTextboxForeground}'
+																			   InnerTextboxForeground='{DynamicResource textblockDoubleclickTextboxInnerTextboxForeground}'
 																			   ToolTip='Item name'
 																			   TextChanged_LostFocus='textboxItemName_TextChanged_LostFocus'
 																			   PreviewKeyDown='textboxItemName_PreviewKeyDown' />

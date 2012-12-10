@@ -46,7 +46,7 @@ namespace ShoppingList
 			{
 				string username_Hex = EncodeAndDecodeInterop.EncodeStringHex(username, onError);
 
-				string apikey_EncryptWithAppsecret = PhpInterop.PhpEncryption.SimpleTripleDesEncrypt(apikey, appsecret_shoppinglist);
+				string apikey_EncryptWithAppsecret = EncryptionInterop.SimpleTripleDesEncrypt(apikey, appsecret_shoppinglist);
 				string apikey_Hex = EncodeAndDecodeInterop.EncodeStringHex(apikey_EncryptWithAppsecret, onError);
 
 				for (int i = 0; i < urlParams.Length; i++)
@@ -71,7 +71,7 @@ namespace ShoppingList
 
 				try
 				{
-					string decrypted = PhpInterop.PhpEncryption.SimpleTripleDesDecrypt(s, appsecret_shoppinglist);
+					string decrypted = EncryptionInterop.SimpleTripleDesDecrypt(s, appsecret_shoppinglist);
 					return decrypted;
 				}
 				catch (Exception exc)

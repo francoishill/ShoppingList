@@ -33,4 +33,6 @@
 	</Style>
 	<SolidColorBrush x:Key='textblockDoubleclickTextboxForeground'
 					 Color='White' />
+	<SolidColorBrush x:Key='textblockDoubleclickTextboxInnerTextboxForeground'
+					 Color='DarkGray' />
 </ResourceDictionary>
