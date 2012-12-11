@@ -38,8 +38,8 @@ namespace ShoppingList
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			Dictionary<string, string> userPrivilages;
-			if (!LicensingInterop_Client.Client_ValidateLicense("ShoppingList", out userPrivilages, ShowError))
-					Environment.Exit(77);
+			if (!LicensingInterop_Client.Client_ValidateLicense(out userPrivilages, ShowError))
+					Environment.Exit(LicensingInterop_Client.cApplicationExitCodeIfLicenseFailedValidation);
 
 			SingleInstanceApplicationManager<MainWindow>.CheckIfAlreadyRunningElseCreateNew(
 				(evt, mainwin) =>
