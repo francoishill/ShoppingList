@@ -37,9 +37,14 @@ namespace ShoppingList
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
+			AutoUpdating.CheckForUpdates_ExceptionHandler(null);
+			/*Intentially created exception
+			int i = 0;
+			var j = 1 / i;*/
+
 			Dictionary<string, string> userPrivilages;
 			if (!LicensingInterop_Client.Client_ValidateLicense(out userPrivilages, ShowError))
-					Environment.Exit(LicensingInterop_Client.cApplicationExitCodeIfLicenseFailedValidation);
+				Environment.Exit(LicensingInterop_Client.cApplicationExitCodeIfLicenseFailedValidation);
 
 			SingleInstanceApplicationManager<MainWindow>.CheckIfAlreadyRunningElseCreateNew(
 				(evt, mainwin) =>
@@ -51,18 +56,14 @@ namespace ShoppingList
 				},
 				(args, mainwin) =>
 				{
-					AppDomain.CurrentDomain.UnhandledException += (snder, exc) =>
-					{
-						Exception exception = (Exception)exc.ExceptionObject;
-						ShowError("Exception" + (exc.IsTerminating ? ", application will now exit" : "") + ":"
-							+ exception.Message + Environment.NewLine + exception.StackTrace);
-					};
+					//AppDomain.CurrentDomain.UnhandledException += (snder, exc) =>
+					//{
+					//    Exception exception = (Exception)exc.ExceptionObject;
+					//    ShowError("Exception" + (exc.IsTerminating ? ", application will now exit" : "") + ":"
+					//        + exception.Message + Environment.NewLine + exception.StackTrace);
+					//};
 
-					ThreadingInterop.PerformVoidFunctionSeperateThread(() =>
-					{
-						AutoUpdating.CheckForUpdates(null, null);
-					},
-					false);
+					//AutoUpdating.CheckForUpdates(null, null);
 
 					//ApplicationRecoveryAndRestart.RegisterForRecoveryAndRestart(
 

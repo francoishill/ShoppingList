@@ -89,6 +89,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\AppTypeIndependant.cs">
+      <Link>AppTypeIndependant.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\ConvertersGeneral.cs">
       <Link>ConvertersGeneral.cs</Link>
     </Compile>
@@ -108,6 +111,9 @@
     <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\LicensingInterop_Shared.cs">
       <Link>LicensingInterop_Shared.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\ReflectionInterop.cs">
+      <Link>ReflectionInterop.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\RegistrationWindow.xaml.cs">
       <Link>RegistrationWindow.xaml.cs</Link>
       <DependentUpon>RegistrationWindow.xaml</DependentUpon>
@@ -115,6 +121,10 @@
     <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\TextblockDoubleclickTextbox.xaml.cs">
       <Link>TextblockDoubleclickTextbox.xaml.cs</Link>
       <DependentUpon>TextblockDoubleclickTextbox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\UnhandledExceptionsWindow.xaml.cs">
+      <Link>UnhandledExceptionsWindow.xaml.cs</Link>
+      <DependentUpon>UnhandledExceptionsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\Win32Api.cs">
       <Link>Win32Api.cs</Link>
@@ -144,6 +154,11 @@
     </Page>
     <Page Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\TextblockDoubleclickTextbox.xaml">
       <Link>TextblockDoubleclickTextbox.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\UnhandledExceptionsWindow.xaml">
+      <Link>UnhandledExceptionsWindow.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

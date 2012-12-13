@@ -74,6 +74,8 @@ namespace ShoppingList
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+			//int i = 0;
+			//var j = 1 / i;
 			var onlineList = ShoppinglistItem.GetListFromOnline(OnError);
 			Dictionary<string, List<ShoppinglistItem>> tmpdict = new Dictionary<string, List<ShoppinglistItem>>();
 			foreach (var item in onlineList)
