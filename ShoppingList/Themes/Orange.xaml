@@ -19,7 +19,8 @@
 					  Offset='0.7' />
 		<GradientStop Color='#FFEB832D'
 					  Offset='1' />
-	</LinearGradientBrush>-->
+	</LinearGradientBrush>
+	-->
 	<RadialGradientBrush x:Key='itemBackgroundBrush'>
 		<GradientStop Color='#FFEBBF00'
 					  Offset='0' />
