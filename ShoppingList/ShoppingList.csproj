@@ -58,14 +58,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
-      <HintPath>..\..\..\..\..\Dropbox\Dev\DLLs\RhinoLicensing\log4net.dll</HintPath>
+      <HintPath>..\..\..\DLLs\RhinoLicensing\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.Licensing">
-      <HintPath>..\..\..\..\..\Dropbox\Dev\DLLs\RhinoLicensing\Rhino.Licensing.dll</HintPath>
+      <HintPath>..\..\..\DLLs\RhinoLicensing\Rhino.Licensing.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -81,7 +82,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
     <Reference Include="WPFToolkit.Extended">
-      <HintPath>..\..\..\..\..\..\..\Francois\Dev\DLLs\WPF Toolkit (Extended)\WPFToolkit.Extended.dll</HintPath>
+      <HintPath>..\..\..\DLLs\WPF Toolkit (Extended)\WPFToolkit.Extended.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -89,50 +90,53 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\AppTypeIndependant.cs">
+    <Compile Include="..\..\SharedClasses\AppTypeIndependant.cs">
       <Link>AppTypeIndependant.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\ConvertersGeneral.cs">
+    <Compile Include="..\..\SharedClasses\ConvertersGeneral.cs">
       <Link>ConvertersGeneral.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\DeveloperCommunication.cs">
+    <Compile Include="..\..\SharedClasses\DeveloperCommunication.cs">
       <Link>DeveloperCommunication.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\EncryptionInterop.cs">
+    <Compile Include="..\..\SharedClasses\EncryptionInterop.cs">
       <Link>EncryptionInterop.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\InputBoxWPF.xaml.cs">
+    <Compile Include="..\..\SharedClasses\InputBoxWPF.xaml.cs">
       <Link>InputBoxWPF.xaml.cs</Link>
       <DependentUpon>InputBoxWPF.xaml</DependentUpon>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\LicensingInterop_Client.cs">
+    <Compile Include="..\..\SharedClasses\LicensingInterop_Client.cs">
       <Link>LicensingInterop_Client.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\LicensingInterop_Shared.cs">
+    <Compile Include="..\..\SharedClasses\LicensingInterop_Shared.cs">
       <Link>LicensingInterop_Shared.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\ReflectionInterop.cs">
+    <Compile Include="..\..\SharedClasses\MachineFingerPrint.cs">
+      <Link>MachineFingerPrint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\SharedClasses\ReflectionInterop.cs">
       <Link>ReflectionInterop.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\RegistrationWindow.xaml.cs">
+    <Compile Include="..\..\SharedClasses\RegistrationWindow.xaml.cs">
       <Link>RegistrationWindow.xaml.cs</Link>
       <DependentUpon>RegistrationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\TextblockDoubleclickTextbox.xaml.cs">
+    <Compile Include="..\..\SharedClasses\TextblockDoubleclickTextbox.xaml.cs">
       <Link>TextblockDoubleclickTextbox.xaml.cs</Link>
       <DependentUpon>TextblockDoubleclickTextbox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\UnhandledExceptionsWindow.xaml.cs">
+    <Compile Include="..\..\SharedClasses\UnhandledExceptionsWindow.xaml.cs">
       <Link>UnhandledExceptionsWindow.xaml.cs</Link>
       <DependentUpon>UnhandledExceptionsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\Win32Api.cs">
+    <Compile Include="..\..\SharedClasses\Win32Api.cs">
       <Link>Win32Api.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\WPFdraggableCanvas.cs">
+    <Compile Include="..\..\SharedClasses\WPFdraggableCanvas.cs">
       <Link>WPFdraggableCanvas.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\WPFHelper.cs">
+    <Compile Include="..\..\SharedClasses\WPFHelper.cs">
       <Link>WPFHelper.cs</Link>
     </Compile>
     <Compile Include="..\..\SharedClasses\NotifyIconWPF.cs">
@@ -142,22 +146,22 @@
       <DependentUpon>DatePickerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShoppinglistItem.cs" />
-    <Page Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\InputBoxWPF.xaml">
+    <Page Include="..\..\SharedClasses\InputBoxWPF.xaml">
       <Link>InputBoxWPF.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\RegistrationWindow.xaml">
+    <Page Include="..\..\SharedClasses\RegistrationWindow.xaml">
       <Link>RegistrationWindow.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\TextblockDoubleclickTextbox.xaml">
+    <Page Include="..\..\SharedClasses\TextblockDoubleclickTextbox.xaml">
       <Link>TextblockDoubleclickTextbox.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\UnhandledExceptionsWindow.xaml">
+    <Page Include="..\..\SharedClasses\UnhandledExceptionsWindow.xaml">
       <Link>UnhandledExceptionsWindow.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -170,74 +174,74 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\AutoUpdating.cs">
+    <Compile Include="..\..\SharedClasses\AutoUpdating.cs">
       <Link>AutoUpdating.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\CalledFromService.cs">
+    <Compile Include="..\..\SharedClasses\CalledFromService.cs">
       <Link>CalledFromService.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\CheckApplicationTypes.cs">
+    <Compile Include="..\..\SharedClasses\CheckApplicationTypes.cs">
       <Link>CheckApplicationTypes.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\CompareObjects.cs">
+    <Compile Include="..\..\SharedClasses\CompareObjects.cs">
       <Link>CompareObjects.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\EncodeAndDecodeInterop.cs">
+    <Compile Include="..\..\SharedClasses\EncodeAndDecodeInterop.cs">
       <Link>EncodeAndDecodeInterop.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\EventHandlers.cs">
+    <Compile Include="..\..\SharedClasses\EventHandlers.cs">
       <Link>EventHandlers.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\fastJSON.cs">
+    <Compile Include="..\..\SharedClasses\fastJSON.cs">
       <Link>fastJSON.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\FeedbackMessageTypes.cs">
+    <Compile Include="..\..\SharedClasses\FeedbackMessageTypes.cs">
       <Link>FeedbackMessageTypes.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\FirepumaInterop.cs">
+    <Compile Include="..\..\SharedClasses\FirepumaInterop.cs">
       <Link>FirepumaInterop.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\Generics.cs">
+    <Compile Include="..\..\SharedClasses\Generics.cs">
       <Link>Generics.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\MiniDownloadBarForm.cs">
+    <Compile Include="..\..\SharedClasses\MiniDownloadBarForm.cs">
       <Link>MiniDownloadBarForm.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\MiniDownloadBarForm.designer.cs">
+    <Compile Include="..\..\SharedClasses\MiniDownloadBarForm.designer.cs">
       <Link>MiniDownloadBarForm.designer.cs</Link>
       <DependentUpon>MiniDownloadBarForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\PhpInterop.cs">
+    <Compile Include="..\..\SharedClasses\PhpInterop.cs">
       <Link>PhpInterop.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\ProcessesInterop.cs">
+    <Compile Include="..\..\SharedClasses\ProcessesInterop.cs">
       <Link>ProcessesInterop.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\RegistryInterop.cs">
+    <Compile Include="..\..\SharedClasses\RegistryInterop.cs">
       <Link>RegistryInterop.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\SettingsInterop.cs">
+    <Compile Include="..\..\SharedClasses\SettingsInterop.cs">
       <Link>SettingsInterop.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\SettingsSimple.cs">
+    <Compile Include="..\..\SharedClasses\SettingsSimple.cs">
       <Link>SettingsSimple.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\SingleInstanceApplicationManager.cs">
+    <Compile Include="..\..\SharedClasses\SingleInstanceApplicationManager.cs">
       <Link>SingleInstanceApplicationManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\ThreadingInterop.cs">
+    <Compile Include="..\..\SharedClasses\ThreadingInterop.cs">
       <Link>ThreadingInterop.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\UserMessages.cs">
+    <Compile Include="..\..\SharedClasses\UserMessages.cs">
       <Link>UserMessages.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\UserMessages.designer.cs">
+    <Compile Include="..\..\SharedClasses\UserMessages.designer.cs">
       <Link>UserMessages.designer.cs</Link>
       <DependentUpon>UserMessages.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\WebInterop.cs">
+    <Compile Include="..\..\SharedClasses\WebInterop.cs">
       <Link>WebInterop.cs</Link>
     </Compile>
     <Compile Include="App.xaml.cs">
@@ -271,11 +275,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\MiniDownloadBarForm.resx">
+    <EmbeddedResource Include="..\..\SharedClasses\MiniDownloadBarForm.resx">
       <Link>MiniDownloadBarForm.resx</Link>
       <DependentUpon>MiniDownloadBarForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\..\..\..\..\Francois\Dev\VSprojects\SharedClasses\UserMessages.resx">
+    <EmbeddedResource Include="..\..\SharedClasses\UserMessages.resx">
       <Link>UserMessages.resx</Link>
       <DependentUpon>UserMessages.cs</DependentUpon>
     </EmbeddedResource>

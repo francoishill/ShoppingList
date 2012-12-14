@@ -49,6 +49,7 @@ namespace ShoppingList
 			"pack://application:,,,/Themes/Default.xaml",//Themes not auto added
 			"pack://application:,,,/Themes/Orange.xaml"
 		};
+		
 		private void EnsureAllThemesExist()
 		{
 			List<string> unfoundThemes = new List<string>();
