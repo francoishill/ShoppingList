@@ -42,7 +42,7 @@ namespace ShoppingList
 				Environment.Exit(LicensingInterop_Client.cApplicationExitCodeIfLicenseFailedValidation);
 
 			AutoUpdating.CheckForUpdates_ExceptionHandler(null);
-			/*Intentially created exception
+			/*//Intentially created exception
 			int i = 0;
 			var j = 1 / i;*/
 
