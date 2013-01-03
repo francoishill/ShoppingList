@@ -23,7 +23,7 @@ namespace ShoppingList
 	/// </summary>
 	public partial class MainWindow : Window, System.Windows.Forms.IWin32Window
 	{
-		//The human friendly DateTime must have a timer (say every minute) to call PropertyChanged event so we 're-generate' the friendly string
+		The human friendly DateTime must have a timer (say every minute) to call PropertyChanged event so we 're-generate' the friendly string
 
 		public const string cUriStartString = "shoppinglist";
 		public const string cUriProtocolHandlerCommandlineArgument = "uriprotocolhandler";
@@ -363,6 +363,15 @@ namespace ShoppingList
 			ResourceDictionary dic = new ResourceDictionary { Source = new Uri(themeName, UriKind.RelativeOrAbsolute) };
 			Resources.MergedDictionaries.RemoveAt(0);
 			Resources.MergedDictionaries.Insert(0, dic);
+		}
+
+		private void labelAbout_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			AboutWindow2.ShowAboutWindow(new System.Collections.ObjectModel.ObservableCollection<DisplayItem>()
+			{
+				new DisplayItem("Author", "Francois Hill"),
+				new DisplayItem("Icon(s) obtained from", null)
+			});
 		}
 	}
 }

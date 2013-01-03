@@ -184,6 +184,14 @@
 				</x:Array>
 			</ListBox.ItemsSource>-->
 		</TreeView>
+		<Label Content='_About'
+			   Grid.Row='1'
+			   VerticalAlignment='Bottom'
+			   HorizontalAlignment='Right'
+			   Margin='0 0 70 4'
+			   Padding='0'
+			   Cursor='Hand'
+			   MouseLeftButtonDown='labelAbout_MouseLeftButtonDown' />
 		<Button Content='Add item'
 				Grid.Row='1'
 				VerticalAlignment='Bottom'
