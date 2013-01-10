@@ -232,6 +232,22 @@ namespace ShoppingList
 		private bool _stopreminding;
 		public bool StopReminding { get { return _stopreminding; } set { _stopreminding = value; OnPropertyChanged("StopReminding"); } }
 
+		private static List<ShoppinglistCategoryWithItems> ListOfCreatedItems = new List<ShoppinglistCategoryWithItems>();
+		//A timer to make sure our HumanFriendly dates are correct (Category.DueDate and Items[].Created)
+		private static System.Threading.Timer _timerToEnsureHumanFriendlyDatesAlwaysCorrect = new System.Threading.Timer(
+			delegate
+			{
+				foreach (var catItem in ListOfCreatedItems)
+				{
+					catItem.OnPropertyChanged("DueDate", "HasReminder");
+					foreach (var itemInCat in catItem.Items ?? new ObservableCollection<ShoppinglistItem>())
+						itemInCat.OnPropertyChanged("Created");
+				}
+			},
+			null,
+			TimeSpan.FromSeconds(1),
+			TimeSpan.FromSeconds(1));
+
 		public ShoppinglistCategoryWithItems(string CategoryName, DateTime? DueDate, bool StopReminding, ObservableCollection<ShoppinglistItem> Items)
 		{
 			this.CategoryName = CategoryName;
@@ -239,10 +255,18 @@ namespace ShoppingList
 			this.IsBusyUploadingOnline = false;
 			this.DueDate = DueDate;
 			this.StopReminding = StopReminding;
+
+			ListOfCreatedItems.Add(this);
 		}
 
-		public event PropertyChangedEventHandler PropertyChanged = delegate { };
-		public void OnPropertyChanged(params string[] propertyNames) { foreach (var pn in propertyNames) PropertyChanged(this, new PropertyChangedEventArgs(pn)); }
+		~ShoppinglistCategoryWithItems()
+		{
+			try
+			{
+				ListOfCreatedItems.Remove(this);
+			}
+			catch { }
+		}
 
 		public bool ChangeCategoryName(string oldValue, string newValue, Action<string> onError = null)
 		{
@@ -299,5 +323,8 @@ namespace ShoppingList
 				return false;
 			}
 		}
+
+		public event PropertyChangedEventHandler PropertyChanged = delegate { };
+		public void OnPropertyChanged(params string[] propertyNames) { foreach (var pn in propertyNames) PropertyChanged(this, new PropertyChangedEventArgs(pn)); }
 	}
 }

@@ -116,6 +116,9 @@
     <Compile Include="..\..\SharedClasses\LicensingInterop_Shared.cs">
       <Link>LicensingInterop_Shared.cs</Link>
     </Compile>
+    <Compile Include="..\..\SharedClasses\Logging.cs">
+      <Link>Logging.cs</Link>
+    </Compile>
     <Compile Include="..\..\SharedClasses\MachineFingerPrint.cs">
       <Link>MachineFingerPrint.cs</Link>
     </Compile>

@@ -23,8 +23,6 @@ namespace ShoppingList
 	/// </summary>
 	public partial class MainWindow : Window, System.Windows.Forms.IWin32Window
 	{
-		The human friendly DateTime must have a timer (say every minute) to call PropertyChanged event so we 're-generate' the friendly string
-
 		public const string cUriStartString = "shoppinglist";
 		public const string cUriProtocolHandlerCommandlineArgument = "uriprotocolhandler";
 		private ObservableCollection<ShoppinglistCategoryWithItems> ItemlistGroupedByCategory = new ObservableCollection<ShoppinglistCategoryWithItems>();
