@@ -60,6 +60,9 @@
     <Reference Include="log4net">
       <HintPath>..\..\..\DLLs\RhinoLicensing\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
+      <HintPath>..\..\..\DLLs\Windows API\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
     <Reference Include="Rhino.Licensing">
       <HintPath>..\..\..\DLLs\RhinoLicensing\Rhino.Licensing.dll</HintPath>
     </Reference>
@@ -139,6 +142,9 @@
     </Compile>
     <Compile Include="..\..\SharedClasses\Win32Api.cs">
       <Link>Win32Api.cs</Link>
+    </Compile>
+    <Compile Include="..\..\SharedClasses\Windows7JumpListsInterop.cs">
+      <Link>Windows7JumpListsInterop.cs</Link>
     </Compile>
     <Compile Include="..\..\SharedClasses\WPFdraggableCanvas.cs">
       <Link>WPFdraggableCanvas.cs</Link>
