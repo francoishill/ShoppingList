@@ -10,6 +10,115 @@ using System.ComponentModel;
 
 namespace ShoppingList
 {
+	public class ShoppinglistCategoryWithItems : INotifyPropertyChanged
+	{
+		private string _categoryname;
+		public string CategoryName { get { return _categoryname; } set { _categoryname = value; OnPropertyChanged("CategoryName"); } }
+		private bool _isbusyuploadingonline;
+		public bool IsBusyUploadingOnline { get { return _isbusyuploadingonline; } set { _isbusyuploadingonline = value; OnPropertyChanged("IsBusyUploadingOnline"); } }
+		public ObservableCollection<ShoppinglistItem> Items { get; set; }
+		private DateTime? _duedate;
+		public DateTime? DueDate { get { return _duedate; } set { _duedate = value; OnPropertyChanged("DueDate", "HasReminder"); } }
+		public bool HasReminder { get { return DueDate.HasValue; } }
+		private bool _stopreminding;
+		public bool StopReminding { get { return _stopreminding; } set { _stopreminding = value; OnPropertyChanged("StopReminding"); } }
+
+		private static List<ShoppinglistCategoryWithItems> ListOfCreatedItems = new List<ShoppinglistCategoryWithItems>();
+		//A timer to make sure our HumanFriendly dates are correct (Category.DueDate and Items[].Created)
+		private static System.Threading.Timer _timerToEnsureHumanFriendlyDatesAlwaysCorrect = new System.Threading.Timer(
+			delegate
+			{
+				foreach (var catItem in ListOfCreatedItems)
+				{
+					catItem.OnPropertyChanged("DueDate", "HasReminder");
+					foreach (var itemInCat in catItem.Items ?? new ObservableCollection<ShoppinglistItem>())
+						itemInCat.OnPropertyChanged("Created");
+				}
+			},
+			null,
+			TimeSpan.FromSeconds(0),
+			TimeSpan.FromSeconds(0.9));//Just under a second, bit more certain
+
+		public ShoppinglistCategoryWithItems(string CategoryName, DateTime? DueDate, bool StopReminding, ObservableCollection<ShoppinglistItem> Items)
+		{
+			this.CategoryName = CategoryName;
+			this.Items = Items;
+			this.IsBusyUploadingOnline = false;
+			this.DueDate = DueDate;
+			this.StopReminding = StopReminding;
+
+			ListOfCreatedItems.Add(this);
+		}
+
+		~ShoppinglistCategoryWithItems()
+		{
+			try
+			{
+				ListOfCreatedItems.Remove(this);
+			}
+			catch { }
+		}
+
+		public bool ChangeCategoryName(string oldValue, string newValue, Action<string> onError = null)
+		{
+			if (onError == null) onError = delegate { };
+
+			this.IsBusyUploadingOnline = true;
+			string result = ShoppinglistItem.DoShoppinglistTask("desktop_changecategoryname", onError, oldValue, newValue);
+			this.IsBusyUploadingOnline = false;
+			if (result != null && result.StartsWith("Category changed:", StringComparison.InvariantCultureIgnoreCase))
+				return true;
+			else
+			{
+				this.CategoryName = null;
+				this.CategoryName = oldValue;
+				return false;
+			}
+		}
+
+		public bool AddReminder(DateTime reminderDate, Action<string> onError = null)
+		{
+			if (onError == null) onError = delegate { };
+
+			this.IsBusyUploadingOnline = true;
+			string result = ShoppinglistItem.DoShoppinglistTask("desktop_addreminder", onError, this.CategoryName, reminderDate.ToString("yyyy-MM-dd HH:mm:ss"));
+			this.IsBusyUploadingOnline = false;
+			if (result != null && result.StartsWith("Reminder added:", StringComparison.InvariantCultureIgnoreCase))
+			{
+				this.DueDate = reminderDate;
+				this.StopReminding = false;
+				return true;
+			}
+			else
+			{
+				onError("Unable to add reminder for category '" + this.CategoryName + "': " + result);
+				return false;
+			}
+		}
+
+		public bool StopReminder(Action<string> onError = null)
+		{
+			if (onError == null) onError = delegate { };
+
+			this.IsBusyUploadingOnline = true;
+			string result = ShoppinglistItem.DoShoppinglistTask("desktop_stopreminder", onError, this.CategoryName);
+			this.IsBusyUploadingOnline = false;
+			if (result != null && result.StartsWith("Reminder removed:", StringComparison.InvariantCultureIgnoreCase))
+			{
+				this.StopReminding = true;
+				return true;
+			}
+			else
+			{
+				onError("Unable to add reminder for category '" + this.CategoryName + "': " + result);
+				return false;
+			}
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged = delegate { };
+		public void OnPropertyChanged(params string[] propertyNames) { foreach (var pn in propertyNames) PropertyChanged(this, new PropertyChangedEventArgs(pn)); }
+	}
+
 	public class ShoppinglistItem : INotifyPropertyChanged
 	{
 		public int Index { get; set; }
@@ -217,114 +326,5 @@ namespace ShoppingList
 
 		public event PropertyChangedEventHandler PropertyChanged = delegate { };
 		public void OnPropertyChanged(string propertyName) { PropertyChanged(this, new PropertyChangedEventArgs(propertyName)); }
-	}
-
-	public class ShoppinglistCategoryWithItems : INotifyPropertyChanged
-	{
-		private string _categoryname;
-		public string CategoryName { get { return _categoryname; } set { _categoryname = value; OnPropertyChanged("CategoryName"); } }
-		private bool _isbusyuploadingonline;
-		public bool IsBusyUploadingOnline { get { return _isbusyuploadingonline; } set { _isbusyuploadingonline = value; OnPropertyChanged("IsBusyUploadingOnline"); } }
-		public ObservableCollection<ShoppinglistItem> Items { get; set; }
-		private DateTime? _duedate;
-		public DateTime? DueDate { get { return _duedate; } set { _duedate = value; OnPropertyChanged("DueDate", "HasReminder"); } }
-		public bool HasReminder { get { return DueDate.HasValue; } }
-		private bool _stopreminding;
-		public bool StopReminding { get { return _stopreminding; } set { _stopreminding = value; OnPropertyChanged("StopReminding"); } }
-
-		private static List<ShoppinglistCategoryWithItems> ListOfCreatedItems = new List<ShoppinglistCategoryWithItems>();
-		//A timer to make sure our HumanFriendly dates are correct (Category.DueDate and Items[].Created)
-		private static System.Threading.Timer _timerToEnsureHumanFriendlyDatesAlwaysCorrect = new System.Threading.Timer(
-			delegate
-			{
-				foreach (var catItem in ListOfCreatedItems)
-				{
-					catItem.OnPropertyChanged("DueDate", "HasReminder");
-					foreach (var itemInCat in catItem.Items ?? new ObservableCollection<ShoppinglistItem>())
-						itemInCat.OnPropertyChanged("Created");
-				}
-			},
-			null,
-			TimeSpan.FromSeconds(1),
-			TimeSpan.FromSeconds(1));
-
-		public ShoppinglistCategoryWithItems(string CategoryName, DateTime? DueDate, bool StopReminding, ObservableCollection<ShoppinglistItem> Items)
-		{
-			this.CategoryName = CategoryName;
-			this.Items = Items;
-			this.IsBusyUploadingOnline = false;
-			this.DueDate = DueDate;
-			this.StopReminding = StopReminding;
-
-			ListOfCreatedItems.Add(this);
-		}
-
-		~ShoppinglistCategoryWithItems()
-		{
-			try
-			{
-				ListOfCreatedItems.Remove(this);
-			}
-			catch { }
-		}
-
-		public bool ChangeCategoryName(string oldValue, string newValue, Action<string> onError = null)
-		{
-			if (onError == null) onError = delegate { };
-
-			this.IsBusyUploadingOnline = true;
-			string result = ShoppinglistItem.DoShoppinglistTask("desktop_changecategoryname", onError, oldValue, newValue);
-			this.IsBusyUploadingOnline = false;
-			if (result != null && result.StartsWith("Category changed:", StringComparison.InvariantCultureIgnoreCase))
-				return true;
-			else
-			{
-				this.CategoryName = null;
-				this.CategoryName = oldValue;
-				return false;
-			}
-		}
-
-		public bool AddReminder(DateTime reminderDate, Action<string> onError = null)
-		{
-			if (onError == null) onError = delegate { };
-
-			this.IsBusyUploadingOnline = true;
-			string result = ShoppinglistItem.DoShoppinglistTask("desktop_addreminder", onError, this.CategoryName, reminderDate.ToString("yyyy-MM-dd HH:mm:ss"));
-			this.IsBusyUploadingOnline = false;
-			if (result != null && result.StartsWith("Reminder added:", StringComparison.InvariantCultureIgnoreCase))
-			{
-				this.DueDate = reminderDate;
-				this.StopReminding = false;
-				return true;
-			}
-			else
-			{
-				onError("Unable to add reminder for category '" + this.CategoryName + "': " + result);
-				return false;
-			}
-		}
-
-		public bool StopReminder(Action<string> onError = null)
-		{
-			if (onError == null) onError = delegate { };
-
-			this.IsBusyUploadingOnline = true;
-			string result = ShoppinglistItem.DoShoppinglistTask("desktop_stopreminder", onError, this.CategoryName);
-			this.IsBusyUploadingOnline = false;
-			if (result != null && result.StartsWith("Reminder removed:", StringComparison.InvariantCultureIgnoreCase))
-			{
-				this.StopReminding = true;
-				return true;
-			}
-			else
-			{
-				onError("Unable to add reminder for category '" + this.CategoryName + "': " + result);
-				return false;
-			}
-		}
-
-		public event PropertyChangedEventHandler PropertyChanged = delegate { };
-		public void OnPropertyChanged(params string[] propertyNames) { foreach (var pn in propertyNames) PropertyChanged(this, new PropertyChangedEventArgs(pn)); }
 	}
 }

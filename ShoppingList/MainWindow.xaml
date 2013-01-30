@@ -6,6 +6,7 @@
 		xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
 		xmlns:wpftoolkitext='clr-namespace:Xceed.Wpf.Toolkit;assembly=WPFToolkit.Extended'
 		Title="Shopping list"
+		Icon='app.ico'
 		Height='700'
 		Width="525"
 		Loaded='Window_Loaded'
