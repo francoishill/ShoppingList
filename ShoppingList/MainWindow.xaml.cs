@@ -93,11 +93,14 @@ namespace ShoppingList
 			treeviewShoppingLists.ItemsSource = ItemlistGroupedByCategory;
 
 			string appPath = RegistryInterop.GetAppPathFromRegistry("ShoppingList");
-			if (appPath != null && appPath == Environment.GetCommandLineArgs()[0])//This application is installed
+
+			int todo;
+			//Todo: what the purpose of the 'AssociateUrlProtocolHandler' on the next few lines for this application
+			/*if (appPath != null && appPath == Environment.GetCommandLineArgs()[0])//This application is installed
 				RegistryInterop.AssociateUrlProtocolHandler(
 					cUriStartString,
 					"Shopping List with Firepuma",
-					"\"" + Environment.GetCommandLineArgs()[0] + "\" " + cUriProtocolHandlerCommandlineArgument + " \"%1\"");
+					"\"" + Environment.GetCommandLineArgs()[0] + "\" " + cUriProtocolHandlerCommandlineArgument + " \"%1\"");*/
 		}
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
